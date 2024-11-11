@@ -1,20 +1,23 @@
-// Server.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <windows.h>
+#include <fstream>
+#include <unordered_map>
+#include <string>
 
-int main()
-{
-    std::cout << "Hello World!\n";
-}
+#pragma comment(lib, "Ws2_32.lib")
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+#define PORT 8080
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+std::unordered_map<std::string, sockaddr_in> clients;
+std::string fullAccessClientIp; // IP address of the client with full access
+
+std::string listFilesInDirectory() {
+    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\Detyra";
+    std::string fileList = "Files in project folder:\n";
+    WIN32_FIND_DATAA findFileData;
+    HANDLE hFind;
+
+    std::string searchPath = directoryPath + "\\*";
+    hFind = FindFirstFileA(searchPath.c_str(), &findFileData);
