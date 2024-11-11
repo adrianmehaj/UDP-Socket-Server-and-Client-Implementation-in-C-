@@ -14,7 +14,7 @@ std::unordered_map<std::string, sockaddr_in> clients;
 std::string fullAccessClientIp; // IP address of the client with full access
 
 std::string listFilesInDirectory() {
-    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\Detyra";
+    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\FilesDetyra";
     std::string fileList = "Files in project folder:\n";
     WIN32_FIND_DATAA findFileData;
     HANDLE hFind;
@@ -137,4 +137,51 @@ void handleClientRequest(SOCKET serverSocket, sockaddr_in clientAddr, int addrLe
     if (bytesSent == SOCKET_ERROR) {
         std::cerr << "Error sending response to client.\n";
     }
+}
+int main() {
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed.\n";
+        return 1;
+    }
+
+    SOCKET serverSocket;
+    struct sockaddr_in serverAddr, clientAddr;
+    int addrLen = sizeof(clientAddr);
+
+    if ((serverSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+        std::cerr << "Socket creation failed.\n";
+        WSACleanup();
+        return 1;
+    }
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(PORT);
+
+    if (bind(serverSocket, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Bind failed.\n";
+        closesocket(serverSocket);
+        WSACleanup();
+        return 1;
+    }
+
+    std::cout << "Server listening on port " << PORT << "...\n";
+
+    char buffer[1024];
+    while (true) {
+        int bytesReceived = recvfrom(serverSocket, buffer, sizeof(buffer) - 1, 0, (struct sockaddr*)&clientAddr, &addrLen);
+        if (bytesReceived == SOCKET_ERROR) {
+            std::cerr << "Receive failed.\n";
+            continue;
+        }
+
+        buffer[bytesReceived] = '\0';
+        std::string clientMessage(buffer);
+        handleClientRequest(serverSocket, clientAddr, addrLen, clientMessage);
+    }
+
+    closesocket(serverSocket);
+    WSACleanup();
+    return 0;
 }
