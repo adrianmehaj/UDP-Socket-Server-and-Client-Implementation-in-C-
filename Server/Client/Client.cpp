@@ -28,3 +28,9 @@ void sendMessage(SOCKET sockfd, sockaddr_in& serverAddr, const std::string& mess
 buffer[n] = '\0';
 std::cout << "Server response: " << buffer << std::endl;
 }
+int main() {
+    WSADATA wsaData;
+    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+        std::cerr << "WSAStartup failed.\n";
+        return 1;
+    }
