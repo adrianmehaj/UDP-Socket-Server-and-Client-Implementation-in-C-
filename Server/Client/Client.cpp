@@ -42,4 +42,6 @@ SOCKET sockfd;
         WSACleanup();
         return 1;
     }
-
+ serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(PORT);
+    inet_pton(AF_INET, SERVER_IP, &serverAddr.sin_addr);
