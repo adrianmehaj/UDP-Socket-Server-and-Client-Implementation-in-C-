@@ -45,3 +45,8 @@ SOCKET sockfd;
  serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(PORT);
     inet_pton(AF_INET, SERVER_IP, &serverAddr.sin_addr);
+while (true) {
+        std::cout << "\nEnter command (LIST_FILES, READ_FILE <filename>, ADD_FILE <filename> <content>, EDIT_FILE <filename> <content>, DELETE_FILE <filename>, or EXIT): ";
+        std::string command;
+        std::getline(std::cin, command);
+
