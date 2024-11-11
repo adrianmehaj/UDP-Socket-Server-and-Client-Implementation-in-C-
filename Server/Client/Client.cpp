@@ -50,3 +50,11 @@ while (true) {
         std::string command;
         std::getline(std::cin, command);
 
+        if (command == "EXIT") break;
+        sendMessage(sockfd, serverAddr, command);
+    }
+
+    closesocket(sockfd);
+    WSACleanup();
+    return 0;
+}
