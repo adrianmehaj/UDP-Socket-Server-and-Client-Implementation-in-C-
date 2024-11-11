@@ -52,7 +52,7 @@ std::string readFileContents(const std::string& fileName) {
 }
 
 std::string addFile(const std::string& fileName, const std::string& content) {
-    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\Detyra2\\" + fileName;
+    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\FilesDetyra\\" + fileName;
     std::ofstream file(directoryPath);
     if (!file.is_open()) {
         return "Error: Could not create file " + fileName + ".\n";
@@ -67,7 +67,7 @@ std::string editFile(const std::string& fileName, const std::string& content) {
 }
 
 std::string deleteFile(const std::string& fileName) {
-    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\Detyra2\\" + fileName;
+    std::string directoryPath = "C:\\Users\\Admin\\Desktop\\FilesDetyra\\" + fileName;
     if (DeleteFileA(directoryPath.c_str())) {
         return "File " + fileName + " deleted successfully.\n";
     }
