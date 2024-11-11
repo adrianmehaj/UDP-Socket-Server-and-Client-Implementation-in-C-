@@ -34,3 +34,12 @@ int main() {
         std::cerr << "WSAStartup failed.\n";
         return 1;
     }
+SOCKET sockfd;
+    struct sockaddr_in serverAddr;
+
+    if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET) {
+        std::cerr << "Socket creation failed.\n";
+        WSACleanup();
+        return 1;
+    }
+
