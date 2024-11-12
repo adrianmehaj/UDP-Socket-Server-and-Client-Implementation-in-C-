@@ -94,26 +94,31 @@ void handleClientRequest(SOCKET serverSocket, sockaddr_in clientAddr, int addrLe
         // Handle commands for the full-access client
         if (clientMessage == "LIST_FILES") {
             response = listFilesInDirectory();
+            std::cout << "Client " << clientIp << " requested to list files.\n";
         }
         else if (clientMessage.rfind("READ_FILE ", 0) == 0) {
             std::string fileName = clientMessage.substr(10);
             response = readFileContents(fileName);
+            std::cout << "Client " << clientIp << " read file: " << fileName << "\n";
         }
         else if (clientMessage.rfind("ADD_FILE ", 0) == 0) {
             size_t pos = clientMessage.find(' ', 9);
             std::string fileName = clientMessage.substr(9, pos - 9);
             std::string content = clientMessage.substr(pos + 1);
             response = addFile(fileName, content);
+            std::cout << "Client " << clientIp << " added file: " << fileName << "\n";
         }
         else if (clientMessage.rfind("EDIT_FILE ", 0) == 0) {
             size_t pos = clientMessage.find(' ', 10);
             std::string fileName = clientMessage.substr(10, pos - 10);
             std::string content = clientMessage.substr(pos + 1);
             response = editFile(fileName, content);
+            std::cout << "Client " << clientIp << " edited file: " << fileName << "\n";
         }
         else if (clientMessage.rfind("DELETE_FILE ", 0) == 0) {
             std::string fileName = clientMessage.substr(12);
             response = deleteFile(fileName);
+            std::cout << "Client " << clientIp << " deleted file: " << fileName << "\n";
         }
         else {
             response = "Invalid command.\n";
@@ -123,10 +128,12 @@ void handleClientRequest(SOCKET serverSocket, sockaddr_in clientAddr, int addrLe
         // Handle commands for read-only clients
         if (clientMessage == "LIST_FILES") {
             response = listFilesInDirectory();
+            std::cout << "Client " << clientIp << " requested to list files (read-only).\n";
         }
         else if (clientMessage.rfind("READ_FILE ", 0) == 0) {
             std::string fileName = clientMessage.substr(10);
             response = readFileContents(fileName);
+            std::cout << "Client " << clientIp << " read file (read-only): " << fileName << "\n";
         }
     }
     else {
@@ -138,6 +145,7 @@ void handleClientRequest(SOCKET serverSocket, sockaddr_in clientAddr, int addrLe
         std::cerr << "Error sending response to client.\n";
     }
 }
+
 int main() {
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
