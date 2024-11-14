@@ -49,10 +49,13 @@ Ky projekt ilustron një sistem server-klient duke përdorur **UDP sockets** në
 4. **Ekzekutoni Klientin**:
    - Ndërtoni dhe ekzekutoni klientin për të dërguar kërkesa
 
+
 ## 👥 Kontributorët
-- Adrian Mehaj
-- Ag Hamiti
-- Agnesa Hulaj
+
+- [Adrian Mehaj](https://github.com/adrianmehaj)
+- [Ag Hamiti](https://github.com/aghamiti)
+- [Agnesa Hulaj](https://github.com/AgnesaHulaj2)
+
 
 ## Përfundim
 Ky projekt ofron një shembull praktik të përdorimit të **UDP socket programming** në C++, duke treguar se si mund të krijoni një sistem të thjeshtë për qasje në dosje përmes një arkitekture server-klient.
